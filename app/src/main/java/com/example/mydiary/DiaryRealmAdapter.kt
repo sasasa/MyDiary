@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 
-class DiaryRealmAdapter(context: Context, data: OrderedRealmCollection<Diary>, autoUpdate: Boolean) : RealmRecyclerViewAdapter<Diary, DiaryRealmAdapter.DiaryViewHolder>(data, autoUpdate) {
+class DiaryRealmAdapter(context: Context?, data: OrderedRealmCollection<Diary>?, autoUpdate: Boolean) : RealmRecyclerViewAdapter<Diary, DiaryRealmAdapter.DiaryViewHolder>(data, autoUpdate) {
     var context: Context
 
     init {
-        this.context = context
+        this.context = context!!
     }
 
     override fun onBindViewHolder(holder: DiaryViewHolder, position: Int) {
