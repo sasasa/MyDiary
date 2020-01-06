@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -117,8 +118,14 @@ class InputDiaryFragment : Fragment() {
                 } catch (ex : IOException) {
                     ex.printStackTrace()
                 }
-                
-
+                mRealm?.executeTransactionAsync { realm: Realm ->
+                    val diary = realm.where(Diary::class.java).equalTo("id", mDiaryId).findFirst()
+                    val bitmap = mDiaryImage?.drawable as BitmapDrawable
+                    val bytes = MyUtils.getByteFromImage(bitmap.bitmap)
+                    if(bytes != null && bytes.size > 0) {
+                        diary?.image = bytes
+                    }
+                }
             }
         }
     }

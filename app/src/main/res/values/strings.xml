@@ -4,7 +4,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="pick_image">画像を選択します</string>
+    <string name="pick_image">画像を選択するアプリを選択してください。</string>
     <string name="rationale">端末内の画像を読み取って日記に表示するには許可をタップします。</string>
     <string name="permission_deny">端末内の画像を読み取るためのパーミッションが必要です。</string>
 
