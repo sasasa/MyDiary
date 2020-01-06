@@ -1,11 +1,17 @@
 package com.example.mydiary
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import java.io.ByteArrayOutputStream
 
 class MyUtils {
     companion object {
+        fun getImageFromStream(resolver: ContentResolver, uri: Uri): Bitmap {
+            return bmp
+        }
+
         fun getImageFromByte(bytes: ByteArray): Bitmap {
             val opt = BitmapFactory.Options()
             opt.inJustDecodeBounds = true
