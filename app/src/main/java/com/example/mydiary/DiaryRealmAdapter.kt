@@ -1,6 +1,7 @@
 package com.example.mydiary
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,17 @@ class DiaryRealmAdapter(context: Context?, data: OrderedRealmCollection<Diary>?,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiaryViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
         val holder = DiaryViewHolder(itemView)
+
+        holder.itemView.setOnClickListener { view: View ->
+            val position = holder.adapterPosition
+            val diary = data?.get(position)
+            val diaryId = diary?.id
+
+            val intent = Intent(context, ShowDiaryActivity::class.java)
+            intent.putExtra("DIARY_ID", diaryId)
+            context.startActivity(intent)
+        }
+
         return holder
     }
 

@@ -9,8 +9,10 @@ import android.view.MenuItem
 import io.realm.Realm
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity : AppCompatActivity(), DiaryListFragment.OnFragmentInteractionListener {
+open class MainActivity : AppCompatActivity(), DiaryListFragment.OnFragmentInteractionListener {
 
     private var mRealm: Realm? = null
 
@@ -31,19 +33,23 @@ class MainActivity : AppCompatActivity(), DiaryListFragment.OnFragmentInteractio
 
     private fun createTestData() {
         mRealm?.executeTransaction { realm: Realm ->
-            val maxId = mRealm?.where(Diary::class.java)?.max("id")
+            val oneToNine = 1..9
 
-            var nextId: Long = 0
-            if(maxId == null) {
-                nextId = 1L
-            } else {
-                nextId = maxId.toLong().plus(1L)
+            for (value in oneToNine) {
+                val maxId = mRealm?.where(Diary::class.java)?.max("id")
+
+                var nextId: Long = 0
+                if(maxId == null) {
+                    nextId = 1L
+                } else {
+                    nextId = maxId.toLong().plus(1L)
+                }
+
+                val diary = realm.createObject(Diary::class.java, nextId)
+                diary.title = "テストタイトル${value}"
+                diary.bodyText = "テスト${value}本文です本文です。"
+                diary.date = "Feb 2${value}"
             }
-
-            val diary = realm.createObject(Diary::class.java, nextId)
-            diary.title = "テストタイトル"
-            diary.bodyText = "テスト本文です本文です。"
-            diary.date = "Feb 22"
         }
     }
 
@@ -59,6 +65,21 @@ class MainActivity : AppCompatActivity(), DiaryListFragment.OnFragmentInteractio
     }
 
     override fun onAddDiarySelected() {
+        mRealm?.beginTransaction()
+        val maxId = mRealm?.where(Diary::class.java)?.max("id")
+        var nextId: Long = 1L
+        if(maxId != null) {
+            nextId = maxId.toLong() + 1L
+        }
+        val diary = mRealm?.createObject(Diary::class.java, nextId)
+        diary?.date = SimpleDateFormat("MMM d", Locale.US).format(Date())
+        mRealm?.commitTransaction()
 
+        val inputDiaryFragment = InputDiaryFragment.newInstance(nextId)
+        val manager = supportFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(R.id.content, inputDiaryFragment, "InputDiaryFragment")
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }

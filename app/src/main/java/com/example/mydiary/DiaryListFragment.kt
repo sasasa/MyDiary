@@ -3,10 +3,8 @@ package com.example.mydiary
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
@@ -15,6 +13,37 @@ import io.realm.Realm
 class DiaryListFragment : Fragment() {
     private var mRealm: Realm? = null
     private var mListener: OnFragmentInteractionListener? = null
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_diary_list, menu)
+        val addDiary = menu.findItem(R.id.menu_item_add_diary)
+        val deleteAll = menu.findItem(R.id.menu_item_delete_all)
+        MyUtils.tintMenuIcon(context!!, addDiary, android.R.color.white)
+        MyUtils.tintMenuIcon(context!!, deleteAll, android.R.color.white)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_item_add_diary -> {
+                mListener?.onAddDiarySelected()
+                return true
+            }
+            R.id.menu_item_delete_all -> {
+                val diaries = mRealm?.where(Diary::class.java)?.findAll()
+                mRealm?.executeTransaction { realm: Realm ->
+                    diaries?.deleteAllFromRealm()
+                }
+                return true
+            }
+        }
+        return false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_item_delete_all"
+        android:icon="@drawable/ic_delete"
+        android:title="日記全削除"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_item_add_diary"
+        android:icon="@drawable/ic_insert_drive_file"
+        android:title="日記を追加します"
+        app:showAsAction="ifRoom" />
+</menu>
