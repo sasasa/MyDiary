@@ -16,7 +16,7 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_show_diary.*
 import org.w3c.dom.Text
 
-class ShowDiaryActivity : MainActivity() {
+class ShowDiaryActivity : AppCompatActivity() {
     companion object {
         private const val DIARY_ID = "DIARY_ID"
         private const val ERROR_CODE = -1L
